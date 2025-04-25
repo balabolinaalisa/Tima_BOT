@@ -1,0 +1,19 @@
+﻿version: '2.24.5'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: telegram_bot_db
+    restart: always
+    environment:
+      POSTGRES_DB: telegrambot
+      POSTGRES_USER: botuser
+      POSTGRES_PASSWORD: botpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  pgdata:
