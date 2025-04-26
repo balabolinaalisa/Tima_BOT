@@ -13,6 +13,7 @@ class Program
     static async Task Main(string[] args)
     {
         Console.WriteLine("Бот запущен");
+        await _telegramBot.DeleteWebhookAsync();
 
         //string folder = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Блоки", "Блок 4. Управление командой");
         //string fullFolderPath = Path.GetFullPath(folder);

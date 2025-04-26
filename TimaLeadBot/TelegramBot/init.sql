@@ -20,3 +20,15 @@ CREATE TABLE IF NOT EXISTS UserHistory (
     Action TEXT NOT NULL,
     Timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS Tests (
+    Id INT PRIMARY KEY,
+    Block INT,
+    NameBlock TEXT,
+    Question TEXT,
+    VariantA TEXT,
+    VariantB TEXT,
+    VariantC TEXT,
+    VariantD TEXT,
+    Answer TEXT
+);
