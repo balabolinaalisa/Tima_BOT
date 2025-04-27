@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const Test = () => {
     const { block } = useParams(); // Получаем номер блока из параметров URL
-    const [questions, setQuestions] = useState([]); // Данные вопросов
+    const [questions, setQuestions] = useState([]); // Данные вопросов, начинаем с пустого массива
     const [answers, setAnswers] = useState([]); // Ответы пользователя
     const [submitted, setSubmitted] = useState(false); // Флаг отправки теста
     const navigate = useNavigate(); // Для навигации после отправки
@@ -25,7 +25,7 @@ const Test = () => {
                     throw new Error('Не удалось загрузить вопросы');
                 }
                 const data = await response.json();
-                setQuestions(data);
+                setQuestions(data); // Устанавливаем данные вопросов
                 setAnswers(new Array(data.length).fill(null)); // Инициализация ответов
             } catch (error) {
                 console.error("Ошибка загрузки тестов:", error);
@@ -89,7 +89,7 @@ const Test = () => {
                     <div key={i} className="mb-6">
                         <p className="font-semibold">{i + 1}. {q.question}</p>
                         <div className="mt-2 space-y-1">
-                            {q.options.map((opt, j) => (
+                            {q.options && q.options.map((opt, j) => (
                                 <label key={j} className="block">
                                     <input
                                         type="radio"
