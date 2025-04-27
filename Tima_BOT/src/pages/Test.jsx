@@ -25,8 +25,20 @@ const Test = () => {
                     throw new Error('Не удалось загрузить вопросы');
                 }
                 const data = await response.json();
-                setQuestions(data); // Устанавливаем данные вопросов
-                setAnswers(new Array(data.length).fill(null)); // Инициализация ответов
+
+                // Преобразуем данные вопросов, создаем массив вариантов ответов
+                const formattedQuestions = data.map(q => ({
+                    ...q,
+                    options: [
+                        q.VariantA,
+                        q.VariantB,
+                        q.VariantC,
+                        q.VariantD || "" // Если D пустое, добавляем пустую строку
+                    ]
+                }));
+
+                setQuestions(formattedQuestions);
+                setAnswers(new Array(formattedQuestions.length).fill(null)); // Инициализация ответов
             } catch (error) {
                 console.error("Ошибка загрузки тестов:", error);
             }
@@ -89,7 +101,7 @@ const Test = () => {
                     <div key={i} className="mb-6">
                         <p className="font-semibold">{i + 1}. {q.question}</p>
                         <div className="mt-2 space-y-1">
-                            {q.options && q.options.map((opt, j) => (
+                            {q.options.map((opt, j) => (
                                 <label key={j} className="block">
                                     <input
                                         type="radio"
