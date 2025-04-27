@@ -9,7 +9,7 @@ function App(){
         <div className="min-h-screen w-full bg-gray-100 p-0 m-0">
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/test/:id" element={<Test/>}/>
+                <Route path="/test/:blockId" element={<Test/>}/>
                 <Route path="/finish/:id" element ={<Finish/>}/>
             </Routes>
         </div>
