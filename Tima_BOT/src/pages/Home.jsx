@@ -11,7 +11,7 @@ const Home =()=>{
     {
         const fetchBlocks= async()=>{
             try{
-                const response=await fetch("http://localhost:5057");
+                const response=await fetch("http://localhost:5057/api/tests");
                 const data=await response.json();
 
                 const uniqueBlocks=[...new Map(data.map(item=>[item.block,{block:item.block,nameBlock:item.nameBlock}])).values()];
