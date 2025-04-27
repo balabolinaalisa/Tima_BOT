@@ -154,7 +154,8 @@ class Program
             new[] { InlineKeyboardButton.WithCallbackData("📁 Блок 2", "block2") },
             new[] { InlineKeyboardButton.WithCallbackData("📁 Блок 3", "block3") },
             new[] { InlineKeyboardButton.WithCallbackData("📁 Блок 4", "block4") },
-            new[] { InlineKeyboardButton.WithCallbackData("👤 Профиль", "profile") }
+            new[] { InlineKeyboardButton.WithCallbackData("👤 Профиль", "profile") },
+            new[] { InlineKeyboardButton.WithUrl("👤 Пройти тесты", "http://localhost:5173") }
         });
 
         await botClient.SendTextMessageAsync(chatId, "Привет! Выбери, что тебе интересно:", replyMarkup: keyboard, cancellationToken: cancellationToken);

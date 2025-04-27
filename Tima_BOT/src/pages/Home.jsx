@@ -11,7 +11,7 @@ const Home =()=>{
     {
         const fetchBlocks= async()=>{
             try{
-                const response=await fetch("http://localhost:5057");
+                const response=await fetch("http://localhost:5057/api/tests");
                 const data=await response.json();
 
                 const uniqueBlocks=[...new Map(data.map(item=>[item.block,{block:item.block,nameBlock:item.nameBlock}])).values()];
@@ -43,13 +43,16 @@ const Home =()=>{
           <div className="bg-white/70 backdrop-blur-md shadow-xl rounded-2xl p-6  max-w-md text-center">
             <h1 className="text-3xl font-bold text-gray-800 mb-4">Добро пожаловать!</h1>
             <p className="text-gray-600 mb-6">Выберите тест</p>
-            <div
+            {blocks.map((block)=>(
+                  <div
             key={block.block}
-            className="p-6 bg-blue-400 text-white rounded-lg shadow-md cursor-pointer hover: bg-blue-600 transition"
+            className="p-6 bg-blue-400 text-white rounded-lg shadow-md cursor-pointer hover: bg-blue-600 transition mb-4"
             onClick={()=>navigate(`/test/${block.block}`)}
             >
                 <h2 className="text-xl font-semibold">{block.nameBlock}</h2>
             </div>
+            ))}
+          
           </div> 
         </div>
     );
