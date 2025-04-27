@@ -1,3 +1,6 @@
+import { useParams, useNavigate } from "react-router-dom";  // Импортируем useParams и useNavigate
+import { useState, useEffect } from "react";
+
 const Test = () => {
     const { id } = useParams(); // Получаем ID теста из параметров URL
     const [questions, setQuestions] = useState([]); // Данные вопросов
