@@ -1,9 +1,6 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-
 const Test = () => {
-    const { block } = useParams(); // Получаем номер блока из параметров URL
-    const [questions, setQuestions] = useState([]); // Данные вопросов, начинаем с пустого массива
+    const { id } = useParams(); // Получаем ID теста из параметров URL
+    const [questions, setQuestions] = useState([]); // Данные вопросов
     const [answers, setAnswers] = useState([]); // Ответы пользователя
     const [submitted, setSubmitted] = useState(false); // Флаг отправки теста
     const navigate = useNavigate(); // Для навигации после отправки
@@ -17,35 +14,23 @@ const Test = () => {
             setUserId(userId);
         }
 
-        // Получение вопросов с сервера для блока
+        // Получение вопросов с сервера
         const fetchQuestions = async () => {
             try {
-                const response = await fetch(`http://localhost:5057/api/tests/by-block/${block}`);
+                const response = await fetch(`http://localhost:5057/api/tests/by-block/${id}`);
                 if (!response.ok) {
                     throw new Error('Не удалось загрузить вопросы');
                 }
                 const data = await response.json();
-
-                // Преобразуем данные вопросов, создаем массив вариантов ответов
-                const formattedQuestions = data.map(q => ({
-                    ...q,
-                    options: [
-                        q.VariantA,
-                        q.VariantB,
-                        q.VariantC,
-                        q.VariantD || "" // Если D пустое, добавляем пустую строку
-                    ]
-                }));
-
-                setQuestions(formattedQuestions);
-                setAnswers(new Array(formattedQuestions.length).fill(null)); // Инициализация ответов
+                setQuestions(data);
+                setAnswers(new Array(data.length).fill(null)); // Инициализация ответов
             } catch (error) {
                 console.error("Ошибка загрузки тестов:", error);
             }
         };
 
         fetchQuestions();
-    }, [block]);
+    }, [id]);
 
     // Обработчик выбора ответа
     const handleSelect = (questionIndex, optionIndex) => {
@@ -74,7 +59,7 @@ const Test = () => {
                     },
                     body: JSON.stringify({
                         userId,
-                        testId: block, // Используем ID блока из URL
+                        testId: id, // Используем ID теста из URL
                         score: result,
                     }),
                 });
@@ -93,7 +78,7 @@ const Test = () => {
 
     return (
         <div className="max-w-2xl mx-auto p-4 bg-white rounded-xl shadow-xl">
-            <h1 className="text-xl font-bold mb-4">Тест блока {block}</h1>
+            <h1 className="text-xl font-bold mb-4">Тест по управлению задачами</h1>
             {questions.length === 0 ? (
                 <p>Загружаются вопросы...</p>
             ) : (
@@ -101,18 +86,22 @@ const Test = () => {
                     <div key={i} className="mb-6">
                         <p className="font-semibold">{i + 1}. {q.question}</p>
                         <div className="mt-2 space-y-1">
-                            {q.options.map((opt, j) => (
-                                <label key={j} className="block">
-                                    <input
-                                        type="radio"
-                                        name={`q-${i}`}
-                                        checked={answers[i] === j}
-                                        onChange={() => handleSelect(i, j)}
-                                        className="mr-2"
-                                    />
-                                    {opt}
-                                </label>
-                            ))}
+                            {/* Фильтрация null значений */}
+                            {[q.VariantA, q.VariantB, q.VariantC, q.VariantD]
+                                .filter(opt => opt !== null)  // Фильтруем null значения
+                                .map((opt, j) => (
+                                    <label key={j} className="block">
+                                        <input
+                                            type="radio"
+                                            name={`q-${i}`}
+                                            checked={answers[i] === j}
+                                            onChange={() => handleSelect(i, j)}
+                                            className="mr-2"
+                                        />
+                                        {opt || 'Нет текста'} {/* Если текста нет, вывести "Нет текста" */}
+                                    </label>
+                                ))
+                            }
                         </div>
                     </div>
                 ))
