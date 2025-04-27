@@ -1,8 +1,8 @@
-import { Router, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const Test = () => {
-    const { id } = useParams(); // Получаем ID теста из параметров URL
+    const { block } = useParams(); // Получаем номер блока из параметров URL
     const [questions, setQuestions] = useState([]); // Данные вопросов
     const [answers, setAnswers] = useState([]); // Ответы пользователя
     const [submitted, setSubmitted] = useState(false); // Флаг отправки теста
@@ -17,10 +17,10 @@ const Test = () => {
             setUserId(userId);
         }
 
-        // Получение вопросов с сервера
+        // Получение вопросов с сервера для блока
         const fetchQuestions = async () => {
             try {
-                const response = await fetch(`http://localhost:5057/api/tests/${id}`);
+                const response = await fetch(`http://localhost:5057/api/tests/by-block/${block}`);
                 if (!response.ok) {
                     throw new Error('Не удалось загрузить вопросы');
                 }
@@ -33,7 +33,7 @@ const Test = () => {
         };
 
         fetchQuestions();
-    }, [id]);
+    }, [block]);
 
     // Обработчик выбора ответа
     const handleSelect = (questionIndex, optionIndex) => {
@@ -62,7 +62,7 @@ const Test = () => {
                     },
                     body: JSON.stringify({
                         userId,
-                        testId: id, // Используем ID теста из URL
+                        testId: block, // Используем ID блока из URL
                         score: result,
                     }),
                 });
@@ -81,7 +81,7 @@ const Test = () => {
 
     return (
         <div className="max-w-2xl mx-auto p-4 bg-white rounded-xl shadow-xl">
-            <h1 className="text-xl font-bold mb-4">Тест по управлению задачами</h1>
+            <h1 className="text-xl font-bold mb-4">Тест блока {block}</h1>
             {questions.length === 0 ? (
                 <p>Загружаются вопросы...</p>
             ) : (
