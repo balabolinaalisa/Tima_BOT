@@ -84,7 +84,7 @@ const Test = () => {
             }
         }
 
-        navigate(`/finish/${result}`);
+        navigate(`/finish/${result}`,{ state: { totalQuestions: questions.length } });
     };
 
     // Функция для подсчета результата
@@ -96,49 +96,50 @@ const Test = () => {
     };
 
     return (
-        <div className=" bg-gradient-to-b from-blue-100 to-green-100 flex justify-center">
-        <div className="max-w-2xl  mx-auto p-4 bg-white rounded-xl shadow-xl">
-            <h1 className="text-xl font-bold mb-4">Тест блока {block}</h1>
+        <div className="min-h-screen bg-gradient-to-b from-blue-100 to-green-100 flex items-center justify-center p-4">
+          <div className="relative w-full max-w-2xl bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-6">
+            <h1 className="text-2xl font-bold mb-6 text-center">Тест блока {block}</h1>
+      
             {questions.length === 0 ? (
-                <p>Загружаются вопросы...</p>
+              <p className="text-center text-gray-600">Загружаются вопросы...</p>
             ) : (
-                questions.map((q, i) => (
-                    <div key={i} className="mb-6">
-                        <p className="font-semibold">{i + 1}. {q.question}</p>
-                        <div className="mt-2 space-y-1">
-                            {q.options
-                            .filter(opt=>opt !==null)
-                            .map((opt, j) => (
-                                <label key={j} className="block">
-                                    <input
-                                        type="radio"
-                                        name={`q-${i}`}
-                                        checked={answers[i] === j}
-                                        onChange={() => handleSelect(i, j)}
-                                        className="mr-2"
-                                    />
-                                    {opt}
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-                ))
-            )}
-            {!submitted ? (
-                <button
-                    onClick={handleSubmit}
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition"
-                >
-                    Отправить
-                </button>
-            ) : (
-                <div className="mt-4 text-lg font-semibold">
-                    Вы верно ответили на {getResult()} из {questions.length} вопросов.
+              questions.map((q, i) => (
+                <div key={i} className="mb-6">
+                  <p className="font-semibold mb-2">{i + 1}. {q.question}</p>
+                  <div className="space-y-2">
+                    {q.options
+                      .filter(opt => opt !== null)
+                      .map((opt, j) => (
+                        <label key={j} className="flex items-center">
+                          <input
+                            type="radio"
+                            name={`q-${i}`}
+                            checked={answers[i] === j}
+                            onChange={() => handleSelect(i, j)}
+                            className="mr-3"
+                          />
+                          {opt}
+                        </label>
+                      ))}
+                  </div>
                 </div>
+              ))
             )}
+      
+            {!submitted ? (
+              <button
+                onClick={handleSubmit}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg transition"
+              >
+                Отправить
+              </button>
+            ) : (
+              <div className="mt-6 text-center text-lg font-semibold">
+                Вы верно ответили на {getResult()} из {questions.length} вопросов.
+              </div>
+            )}
+          </div>
         </div>
-    </div>
-    );
-};
-
+      );
+    }      
 export default Test;

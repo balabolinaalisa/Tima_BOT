@@ -33,29 +33,31 @@ const Home =()=>{
         return<div>Загрузка тестов...</div>;
     }
 
-    return(
-        <div className=" min-h-screen bg-gradient-to-b from-blue-100 to-green-100 p-6 relative flex items-center justify-center">
+    return (
+        <div className="min-h-screen bg-gradient-to-b from-blue-100 to-green-100 p-6 flex items-center justify-center">
+          <div className="relative bg-white/70 backdrop-blur-md shadow-xl rounded-2xl p-6 max-w-md w-full text-center"> 
             <img
-            src={logo}
-            alt="БАРС Груп"
-            className="absolute top-4 right-4 w-16 h-16 object-contain"
+              src={logo}
+              alt="БАРС Групп"
+              className="absolute top-4 right-4 w-12 h-12 object-contain"
             />
-          <div className="bg-white/70 backdrop-blur-md shadow-xl rounded-2xl p-6  max-w-md text-center">
+            
             <h1 className="text-3xl font-bold text-gray-800 mb-4">Добро пожаловать!</h1>
             <p className="text-gray-600 mb-6">Выберите тест</p>
-            {blocks.map((block)=>(
-                  <div
-            key={block.block}
-            className="p-6 bg-blue-400 text-white rounded-lg shadow-md cursor-pointer hover:bg-blue-600 transition mb-4"
-            onClick={()=>navigate(`/test/${block.block}`)}
-            >
-                <h2 className="text-xl font-semibold">{block.nameBlock}</h2>
-            </div>
+      
+            {blocks.map((block) => (
+              <div
+                key={block.block}
+                className="p-4 bg-blue-600 text-white rounded-lg shadow-md cursor-pointer hover:bg-blue-400 transition mb-4"
+                onClick={() => navigate(`/test/${block.block}`)}
+              >
+                <h2 className="text-lg font-semibold">{block.nameBlock}</h2>
+              </div>
             ))}
-          
-          </div> 
+          </div>
         </div>
-    );
+      );
+      
 };
 
 export default Home;
