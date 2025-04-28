@@ -30,13 +30,13 @@ const Test = () => {
                 const formattedQuestions = data.map(q => ({
                     ...q,
                     options: [
-                        q.VariantA,
-                        q.VariantB,
-                        q.VariantC,
-                        q.VariantD || "" // Если D пустое, добавляем пустую строку
+                        q.variantA,
+                        q.variantB,
+                        q.variantC,
+                        q.variantD || null // Если D пустое, добавляем пустую строку
                     ]
                 }));
-
+                console.log(formattedQuestions); 
                 setQuestions(formattedQuestions);
                 setAnswers(new Array(formattedQuestions.length).fill(null)); // Инициализация ответов
             } catch (error) {
@@ -50,6 +50,7 @@ const Test = () => {
     // Обработчик выбора ответа
     const handleSelect = (questionIndex, optionIndex) => {
         const newAnswers = [...answers];
+        console.log(newAnswers);
         newAnswers[questionIndex] = optionIndex;
         setAnswers(newAnswers);
     };
@@ -88,7 +89,8 @@ const Test = () => {
 
     // Функция для подсчета результата
     const getResult = () => {
-        return answers.filter((ans, index) => ans === questions[index].correct).length;
+        return answers.filter((ans, index) => 
+            ans === questions[index].answer).length;
     };
 
     return (
@@ -101,7 +103,9 @@ const Test = () => {
                     <div key={i} className="mb-6">
                         <p className="font-semibold">{i + 1}. {q.question}</p>
                         <div className="mt-2 space-y-1">
-                            {q.options.map((opt, j) => (
+                            {q.options
+                            .filter(opt=>opt !==null)
+                            .map((opt, j) => (
                                 <label key={j} className="block">
                                     <input
                                         type="radio"

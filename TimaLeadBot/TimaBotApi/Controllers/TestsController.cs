@@ -35,7 +35,7 @@ public class TestsController : ControllerBase
                 VariantB = reader.GetString(5),
                 VariantC = reader.GetString(6),
                 VariantD = reader.IsDBNull(7) ? null : reader.GetString(7),
-                Answer = reader.GetString(8)
+                Answer = reader.GetInt32(8)
             });
         }
 
@@ -67,7 +67,7 @@ public class TestsController : ControllerBase
                 VariantB = reader.GetString(5),
                 VariantC = reader.GetString(6),
                 VariantD = reader.IsDBNull(7) ? null : reader.GetString(7),
-                Answer = reader.GetString(8)
+                Answer = reader.GetInt32(8)
             });
         }
 
