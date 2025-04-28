@@ -1,19 +1,32 @@
-﻿version: '2.24.5'
+﻿version: "3"
 
 services:
   postgres:
-    image: postgres:15
-    container_name: telegram_bot_db
+    image: postgres:12.3-alpine
     restart: always
     environment:
       POSTGRES_DB: telegrambot
-      POSTGRES_USER: botuser
-      POSTGRES_PASSWORD: botpass
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
+  pgadmin:
+    image: dpage/pgadmin4:4.23
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - 15432:80
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
 volumes:
-  pgdata:
+  postgres:
+  pgadmin:

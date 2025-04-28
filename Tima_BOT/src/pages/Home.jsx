@@ -46,7 +46,7 @@ const Home =()=>{
             {blocks.map((block)=>(
                   <div
             key={block.block}
-            className="p-6 bg-blue-400 text-white rounded-lg shadow-md cursor-pointer hover: bg-blue-600 transition mb-4"
+            className="p-6 bg-blue-400 text-white rounded-lg shadow-md cursor-pointer hover:bg-blue-600 transition mb-4"
             onClick={()=>navigate(`/test/${block.block}`)}
             >
                 <h2 className="text-xl font-semibold">{block.nameBlock}</h2>
